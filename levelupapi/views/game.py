@@ -1,11 +1,10 @@
 """View module for handling requests about games"""
 from django.core.exceptions import ValidationError
-from rest_framework import status
 from django.http import HttpResponseServerError
+from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from rest_framework import status
 from levelupapi.models import Game, GameType, Gamer
 
 
@@ -146,5 +145,6 @@ class GameSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level', 'game_type')
+        fields = ('id', 'title', 'maker',
+                  'number_of_players', 'skill_level', 'game_type')
         depth = 1
