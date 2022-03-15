@@ -10,9 +10,14 @@ from levelupapi.serializers import StatusSerializer
 
 
 class StatusView(ViewSet):
-
+    """
+        pokemon statuses
+    """
     # e.g. http://localhost:8000/statuses
     def list(self, request):
+        """
+        list view for statuses
+        """
         statuses = Status.objects.all()
 
         try:

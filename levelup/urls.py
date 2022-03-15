@@ -25,7 +25,8 @@ from levelupapi.views import (
     StatusView,
     get_gamer_profile,
     login_user,
-    register_user
+    register_user,
+    game_template
 )
 
 
@@ -40,6 +41,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register', register_user),
     path('login', login_user),
+    # when GET to /gametemplate, run game_template(request)
+    path('gametemplate', game_template),
     path('profile', get_gamer_profile),
     path('api-auth', include('rest_framework.urls', namespace='rest_framework'))
 ]

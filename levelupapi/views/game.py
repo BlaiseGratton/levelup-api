@@ -1,11 +1,31 @@
 """View module for handling requests about games"""
+from datetime import datetime
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError
 from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from levelupapi.models import Game, GameType, Gamer
+
+
+@permission_classes([AllowAny])
+def game_template(request):
+    """
+    here is a game template using HTML
+    """
+    id = request.GET.get('id')
+
+    if id:
+        try:
+            gamer = Gamer.objects.get(pk=id)
+            return HttpResponse(f'<h1>helo { gamer.user.first_name }</h1>')
+        except Gamer.DoesNotExist:
+            return HttpResponse('ya done goofed!')
+    else:
+        return HttpResponse('<h1>helo ok</h1>')
 
 
 class GameView(ViewSet):
@@ -43,7 +63,7 @@ class GameView(ViewSet):
         try:
             game.save()
             serializer = GameSerializer(game, context={'request': request})
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         # If anything went wrong, catch the exception and
         # send a response with a 400 status code to tell the
